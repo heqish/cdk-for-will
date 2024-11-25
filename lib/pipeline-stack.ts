@@ -19,7 +19,6 @@ export class PipelineStack extends cdk.Stack {
         }),
         installCommands: [
           'npm install -g aws-cdk',
-          'pip install -r requirements.txt',
         ],
         commands: [
           'npm ci',
@@ -32,6 +31,9 @@ export class PipelineStack extends cdk.Stack {
     const appStage = pipeline.addStage(new ApplicationStage(this, 'Deploy'), {
       pre: [
         new CodeBuildStep('Tests', {
+          installCommands: [
+            'pip install -r requirements.txt',
+          ],
           commands: [
             'cd lambda',
             'python -m pytest handler_test.py',
