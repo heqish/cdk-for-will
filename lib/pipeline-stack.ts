@@ -36,6 +36,7 @@ export class PipelineStack extends cdk.Stack {
           ],
           commands: [
             'cd lambda',
+            'ls -R',
             'python -m pytest handler_test.py',
           ],
         })
