@@ -5,7 +5,7 @@ import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
 import { CodeBuildStep, CodePipeline, CodePipelineSource } from 'aws-cdk-lib/pipelines';
-import { LambdaStack } from './lambda-stack';
+import { InfraStack } from './infra-stack';
 
 export class PipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -29,7 +29,7 @@ export class PipelineStack extends cdk.Stack {
       }),
     });
 
-    const appStage = pipeline.addStage(new ApplicationStage(this, 'ApplicationStage'), {
+    const appStage = pipeline.addStage(new ApplicationStage(this, 'Deploy'), {
       pre: [
         new CodeBuildStep('Tests', {
           commands: [
@@ -46,6 +46,6 @@ class ApplicationStage extends cdk.Stage {
   constructor(scope: Construct, id: string, props?: cdk.StageProps) {
     super(scope, id, props);
 
-    new LambdaStack(this, 'LambdaStack');
+    new InfraStack(this, 'InfraStack');
   }
 }
